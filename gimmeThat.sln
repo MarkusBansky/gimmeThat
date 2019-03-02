@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gimmeThat", "gimmeThat\gimmeThat.csproj", "{1F418381-B5DC-4BB7-8894-9E778280D360}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testsProject", "testsProject\testsProject.csproj", "{E4B44A50-2BD1-4BDD-9F92-68FBDEA969B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gimmeTests", "gimmeTests\gimmeTests.csproj", "{9A66F670-B283-42E1-8FB7-F6D083AD8153}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{1F418381-B5DC-4BB7-8894-9E778280D360}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F418381-B5DC-4BB7-8894-9E778280D360}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F418381-B5DC-4BB7-8894-9E778280D360}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E4B44A50-2BD1-4BDD-9F92-68FBDEA969B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E4B44A50-2BD1-4BDD-9F92-68FBDEA969B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E4B44A50-2BD1-4BDD-9F92-68FBDEA969B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E4B44A50-2BD1-4BDD-9F92-68FBDEA969B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A66F670-B283-42E1-8FB7-F6D083AD8153}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A66F670-B283-42E1-8FB7-F6D083AD8153}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A66F670-B283-42E1-8FB7-F6D083AD8153}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A66F670-B283-42E1-8FB7-F6D083AD8153}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
