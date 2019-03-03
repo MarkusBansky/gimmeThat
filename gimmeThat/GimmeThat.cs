@@ -1,103 +1,76 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
+using gimmeThat.OP;
 
 namespace gimmeThat
 {
     public class GimmeThat
     {
-        private string _uri;
-        private RequestType _type;
-
-        private Exception _exception;
-        private string _innerText;
-
-        private string _response;
+        /// <summary>
+        /// Contains all previous and the latest operations been made in the sequence
+        /// </summary>
+        private readonly List<Operation> _operations;
         
-        public string Response
+        /// <summary>
+        /// Retrieves a response message in RAW string format. 
+        /// </summary>
+        public string Response => _operations.LastOrDefault()?.ResponseText;
+        
+        /// <summary>
+        /// If the last call had any Exceptions then this will be true.
+        /// </summary>
+        public bool HasError => _operations.LastOrDefault()?.Exception != null;
+
+        private Operation LatestOperation => _operations.LastOrDefault();
+
+        /// <summary>
+        /// Constructor. Used to initialize all required fields for this class to work.
+        /// </summary>
+        public GimmeThat()
         {
-            get { return _response; }
+            _operations = new List<Operation>();
         }
 
+        /// <summary>
+        /// Performs a GET request to a url, then if success then sets all values from response and if any errors they
+        /// are caught and 
+        /// </summary>
+        /// <param name="uri">Represent a URL that this call is made to.</param>
+        /// <returns>Self, with changed values and a callback.</returns>
         public GimmeThat Get(string uri)
         {
-            _uri = uri;
-            _type = RequestType.GET;
-
-            var request = (HttpWebRequest)WebRequest.Create(uri);
-            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-            try
-            {
-                using (var response = (HttpWebResponse) request.GetResponse())
-                {
-                    try
-                    {
-                        using (var stream = response.GetResponseStream())
-                        {
-                            if (stream == null)
-                            {
-                                _exception = new Exception("Response stream was equal to null.");
-                                _innerText = "Stream is null.";
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    using (var reader = new StreamReader(stream))
-                                    {
-                                        try
-                                        {
-                                            _response = reader.ReadToEnd();
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            _exception = ex;
-                                            _innerText = response.StatusDescription;
-                                        }
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    _exception = ex;
-                                    _innerText = "";
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _exception = ex;
-                        _innerText = response.StatusDescription;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _exception = ex;
-                _innerText = "";
-            }
+            var operation = new Operation {Type = RequestType.GET, Url = uri};
+            GimmeOperations.MakeGetCall(ref operation);
+            _operations.Add(operation);
 
             return this;
         }
 
         public GimmeThat Then(GimmeFunctions.DoThen func)
         {
-            func.Invoke(_uri, _type, Response);
+            if (LatestOperation == null) 
+                return this;
+            
+            func.Invoke(LatestOperation.Url, LatestOperation.Type, Response);
             return this;
         }
 
         public GimmeThat ThenAs<T>(GimmeFunctions.DoThen<T> func) where T : IGimmeResponse<T>, new()
         {
+            if (LatestOperation == null) 
+                return this;
+            
             try
             {
                 var converter = new T();
-                func.Invoke(_uri, _type, converter.ConvertTo(Response));
+                func.Invoke(LatestOperation.Url, LatestOperation.Type, converter.ConvertTo(Response));
             }
             catch (Exception ex)
             {
-                _exception = ex;
-                _innerText = "Please check the conversion method.";
+                LatestOperation.Exception = ex;
             }
 
             return this;

@@ -41,11 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GimmeFunctions.cs" />
     <Compile Include="GimmeThat.cs" />
-    <Compile Include="IGimmeResponse.cs" />
+    <Compile Include="Helpers\GimmeFunctions.cs" />
+    <Compile Include="Helpers\GimmeOperations.cs" />
+    <Compile Include="Helpers\IGimmeResponse.cs" />
+    <Compile Include="Helpers\RequestType.cs" />
+    <Compile Include="OP\Operation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
